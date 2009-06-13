@@ -73,3 +73,15 @@ class MuninPostgresPlugin(MuninPlugin):
 
     def autoconf(self):
         return bool(self.connection())
+
+    def tables(self):
+        if not hasattr(self, '_tables'):
+            c = self.cursor()
+            c.execute(
+                "SELECT c.relname FROM pg_catalog.pg_class c"
+                " LEFT JOIN pg_catalog.pg_namespace n ON n.oid = c.relnamespace"
+                " WHERE c.relkind IN ('r','')"
+                "  AND n.nspname NOT IN ('pg_catalog', 'pg_toast')"
+                "  AND pg_catalog.pg_table_is_visible(c.oid)")
+            self._tables = [r[0] for r in c.fetchall()]
+        return self._tables

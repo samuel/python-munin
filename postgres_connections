@@ -19,8 +19,8 @@ class MuninPostgresConnectionsPlugin(MuninPostgresPlugin):
                 label = "Active connections",
                 info = "Active connections",
                 type = "GAUGE",
-                warning = int(row[0] * 0.7),
-                critical = int(row[0] * 0.8),
+                warning = int(int(row[0]) * 0.7),
+                critical = int(int(row[0]) * 0.8),
             ),
         )
 
