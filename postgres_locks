@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+
+from munin import MuninPostgresPlugin
+
+class MuninPostgresLocksPlugin(MuninPostgresPlugin):
+    dbname_in_args = False
+    graph_title = "Postgres locks"
+    graph_args = "--base 1000"
+    graph_vlabel = "Locks"
+    graph_info = "Shows Postgresql locks"
+    fields = dict(
+        locks = dict(
+            label = "Locks",
+            info = "Locks",
+            type = "GAUGE",
+            warning = 10,
+            critical = 20,
+        ),
+        exlocks = dict(
+            label = "Exclusive locks",
+            info = "Exclusive locks",
+            type = "GAUGE",
+            warning = 5,
+            critical = 10,
+        ),
+    )
+
+    def execute(self):
+        c = self.cursor()
+        c.execute("SELECT mode, COUNT(mode) FROM pg_locks GROUP BY mode ORDER BY mode")
+        locks = 0
+        exlocks = 0
+        for row in c.fetchall():
+            if 'exclusive' in row[0].lower():
+                exlocks += row[1]
+            locks += row[1]
+        print "locks.value %s" % locks
+        print "exlocks.value %s" % exlocks
+
+if __name__ == "__main__":
+    MuninPostgresLocksPlugin().run()
