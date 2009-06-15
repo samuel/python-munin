@@ -1,4 +1,5 @@
 
+import os
 import sys
 
 class MuninPlugin(object):
@@ -10,6 +11,7 @@ class MuninPlugin(object):
     fields = []
 
     def __init__(self):
+        self.category = os.environ.get('GRAPH_CATEGORY') or self.category
         super(MuninPlugin, self).__init__()
 
     def autoconf(self):

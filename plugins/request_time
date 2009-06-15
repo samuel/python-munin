@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+
+import os
+from time import time
+from urllib2 import urlopen
+
+from munin import MuninPlugin
+
+class MuninRequestTimePlugin(MuninPlugin):
+    title = "Request Time"
+    args = "--base 1000"
+    vlabel = "seconds / request"
+    info = "Time for a request to complete"
+
+    def __init__(self):
+        self.bound_time = int(os.environ['RT_BOUND_TIME']) if 'RT_BOUND_TIME' in os.environ else None
+        self.urls = []
+        for k, v in os.environ.iteritems():
+            if k.startswith('RT_URL'):
+                self.urls.append(tuple(v.split('=', 1)))
+        self.urls.sort()
+
+    @property
+    def fields(self):
+        return [
+            (name, dict(
+                label = name,
+                type = "GAUGE",
+                min = "0",
+            )) for name, url in self.urls
+        ]
+
+    def execute(self):
+        for name, url in self.urls:
+            t = time()
+            urlopen(url).read()
+            dt = time() - t
+            if self.bound_time:
+                dt = min(dt, self.bound_time)
+            print "%s.value %.2f" % (name, dt)
+
+if __name__ == "__main__":
+    MuninRequestTimePlugin().run()
