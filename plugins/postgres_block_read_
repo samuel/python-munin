@@ -20,7 +20,7 @@ class MuninPostgresBlockReadPlugin(MuninPostgresPlugin):
             info = "Cached in memory",
             type = "DERIVE",
             min = "0",
-            draw = "AREA",
+            draw = "STACK",
         )),
     )
 
