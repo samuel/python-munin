@@ -8,42 +8,42 @@ class MuninPostgresQueriesPlugin(MuninPostgresPlugin):
     graph_vlabel = "Queries per ${graph_period}"
     graph_info = "Shows number of select, insert, update and delete queries"
 
-    field_types = dict(
-        sel_seq = dict(
+    field_types = (
+        ('sel_seq', dict(
             label = "s_selects",
             info = "Sequential selects on all tables",
             column = "seq_scan",
-        ),
-        sel_seq_rows = dict(
+        )),
+        ('sel_seq_rows', dict(
             label = "s_select rows",
             info = "Rows returned from sequential selects",
             column = "seq_tup_read",
-        ),
-        sel_idx = dict(
+        )),
+        ('sel_idx', dict(
             label = "i_selects",
             info = "Sequential selects on all indexes",
             column = "idx_scan",
-        ),
-        sel_idx_rows = dict(
+        )),
+        ('sel_idx_rows', dict(
             label = "i_select rows",
             info = "Rows returned from index selects",
             column = "idx_tup_fetch",
-        ),
-        inserts = dict(
+        )),
+        ('inserts', dict(
             label = "inserts",
             info = "Rows inserted on all tables",
             column = "n_tup_ins",
-        ),
-        updates = dict(
+        )),
+        ('updates', dict(
             label = "updates",
             info = "Rows updated on all tables",
             column = "n_tup_upd",
-        ),
-        deletes = dict(
+        )),
+        ('deletes', dict(
             label = "deletes",
             info = "Rows deleted on all tables",
             column = "n_tup_del",
-        ),
+        )),
     )
 
     @property
@@ -52,22 +52,22 @@ class MuninPostgresQueriesPlugin(MuninPostgresPlugin):
 
     @property
     def fields(self):
-        return dict(
+        return [
             (k, dict(
                     label = v['label'],
                     info = v['label'],
                     type = "DERIVE",
                     min = "0",
-                )) for k, v in self.field_types.iteritems())
+                )) for k, v in self.field_types.iteritems()]
 
     def execute(self):
         c = self.cursor()
-        keys = list(self.field_types.keys())
-        query = "SELECT %s FROM pg_stat_all_tables" % ",".join('SUM("%s")' % self.field_types[k]['column'] for k in keys)
+        keys = [(k, v['column']) for k, v in self.field_types]
+        query = "SELECT %s FROM pg_stat_all_tables" % ",".join('SUM("%s")' % col for key, col in keys)
         c.execute(query)
         row = c.fetchone()
         for k, v in zip(keys, row):
-            print "%s.value %s" % (k, v)
+            print "%s.value %s" % (k[1], v)
 
 if __name__ == "__main__":
     MuninPostgresQueriesPlugin().run()

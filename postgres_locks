@@ -8,21 +8,21 @@ class MuninPostgresLocksPlugin(MuninPostgresPlugin):
     graph_args = "--base 1000"
     graph_vlabel = "Locks"
     graph_info = "Shows Postgresql locks"
-    fields = dict(
-        locks = dict(
+    fields = (
+        ('locks', dict(
             label = "Locks",
             info = "Locks",
             type = "GAUGE",
             warning = 10,
             critical = 20,
-        ),
-        exlocks = dict(
+        )),
+        ('exlocks', dict(
             label = "Exclusive locks",
             info = "Exclusive locks",
             type = "GAUGE",
             warning = 5,
             critical = 10,
-        ),
+        )),
     )
 
     def execute(self):

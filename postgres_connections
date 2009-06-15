@@ -14,14 +14,14 @@ class MuninPostgresConnectionsPlugin(MuninPostgresPlugin):
         c = self.cursor()
         c.execute("SHOW max_connections")
         row = c.fetchone()
-        return dict(
-            connections = dict(
+        return (
+            ('connections', dict(
                 label = "Active connections",
                 info = "Active connections",
                 type = "GAUGE",
                 warning = int(int(row[0]) * 0.7),
                 critical = int(int(row[0]) * 0.8),
-            ),
+            )),
         )
 
     def execute(self):
