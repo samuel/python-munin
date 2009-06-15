@@ -1,0 +1,37 @@
+#!/usr/bin/env python
+
+from munin.postgres import MuninPostgresPlugin
+
+class MuninPostgresCommitsPlugin(MuninPostgresPlugin):
+    dbname_in_args = True
+    args = "--base 1000"
+    vlabel = "Sessions per ${graph_period}"
+    info = "Shows number of commits and rollbacks"
+    fields = (
+        ('commits', dict(
+            label = "commits",
+            info = "SQL sessions terminated with a commit command",
+            type = "DERIVE",
+            min = "0",
+        )),
+        ('rollbacks', dict(
+            label = "rollbacks",
+            info = "SQL sessions terminated with a rollback command",
+            type = "DERIVE",
+            min = "0",
+        )),
+    )
+
+    @property
+    def title(self):
+        return "Postgres commits/rollbacks on %s" % self.dbname
+
+    def execute(self):
+        c = self.cursor()
+        c.execute("SELECT xact_commit, xact_rollback FROM pg_stat_database WHERE datname = %s", (self.dbname,))
+        for row in c.fetchall():
+            print "commits.value %s" % row[0]
+            print "rollbacks.value %s" % row[1]
+
+if __name__ == "__main__":
+    MuninPostgresCommitsPlugin().run()
