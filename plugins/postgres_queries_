@@ -67,7 +67,7 @@ class MuninPostgresQueriesPlugin(MuninPostgresPlugin):
         c.execute(query)
         row = c.fetchone()
         for k, v in zip(keys, row):
-            print "%s.value %s" % (k[1], v)
+            print "%s.value %s" % (k[0], v)
 
 if __name__ == "__main__":
     MuninPostgresQueriesPlugin().run()
