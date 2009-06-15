@@ -13,6 +13,7 @@ class MuninRequestTimePlugin(MuninPlugin):
     info = "Time for a request to complete"
 
     def __init__(self):
+        super(MuninRequestTimePlugin, self).__init__()
         self.bound_time = float(os.environ['RT_BOUND_TIME']) if 'RT_BOUND_TIME' in os.environ else None
         self.urls = []
         for k, v in os.environ.iteritems():
