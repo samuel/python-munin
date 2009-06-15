@@ -5,8 +5,7 @@ import socket
 from munin import MuninPlugin
 
 class MuninMemcachedPlugin(MuninPlugin):
-    graph_title = "Memcached query stats"
-    graph_category = "Memcached"
+    category = "Memcached"
 
     def autoconf(self):
         try:

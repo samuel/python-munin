@@ -3,10 +3,10 @@
 from munin.memcached import MuninMemcachedPlugin
 
 class MuninMemcachedConnectionsPlugin(MuninMemcachedPlugin):
-    graph_title = "Memcached connections stats"
-    graph_args = "--base 1000"
-    graph_vlabel = "Connections"
-    graph_info = "connections stats"
+    title = "Memcached connections stats"
+    args = "--base 1000"
+    vlabel = "Connections"
+    info = "connections stats"
     fields = (
         ('curr_connections', dict(
             label = "connections",

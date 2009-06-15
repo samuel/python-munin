@@ -4,13 +4,14 @@ from munin import MuninPlugin
 
 class MuninPostgresPlugin(MuninPlugin):
     dbname_in_args = False
-    graph_category = "PostgreSQL"
+    category = "PostgreSQL"
+    default_table = "template1"
 
     def __init__(self):
         super(MuninPostgresPlugin, self).__init__()
 
         self.dbname = ((sys.argv[0].rsplit('_', 1)[-1] if self.dbname_in_args else None)
-            or os.environ.get('PGDATABASE') or 'template1')
+            or os.environ.get('PGDATABASE') or self.default_table)
         dsn = ["dbname='%s'" % self.dbname]
         for k in ('user', 'password', 'host'):
             v = os.environ.get('DB%s' % k.upper())

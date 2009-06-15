@@ -2,11 +2,11 @@
 import sys
 
 class MuninPlugin(object):
-    graph_title = ""
-    graph_args = None
-    graph_vlabel = None
-    graph_info = None
-    graph_category = None
+    title = ""
+    args = None
+    vlabel = None
+    info = None
+    category = None
     fields = []
 
     def __init__(self):
@@ -16,11 +16,11 @@ class MuninPlugin(object):
         return False
 
     def config(self):
-        conf = ["graph_title %s" % self.graph_title]
-        for k in ('graph_category', 'graph_args', 'graph_vlabel', 'graph_info'):
+        conf = []
+        for k in ('title', 'category', 'args', 'vlabel', 'info'):
             v = getattr(self, k)
             if v:
-                conf.append('%s %s' % (k, v))
+                conf.append('graph_%s %s' % (k, v))
 
         for field_name, field_args in self.fields:
             for arg_name, arg_value in field_args.iteritems():

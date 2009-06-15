@@ -4,10 +4,10 @@ from munin.postgres import MuninPostgresPlugin
 
 class MuninPostgresConnectionsPlugin(MuninPostgresPlugin):
     dbname_in_args = False
-    graph_title = "Postgres active connections"
-    graph_args = "-l 0 --base 1000"
-    graph_vlabel = "Active connections"
-    graph_info = "Shows active Postgresql connections"
+    title = "Postgres active connections"
+    args = "-l 0 --base 1000"
+    vlabel = "Active connections"
+    info = "Shows active Postgresql connections"
 
     @property
     def fields(self):

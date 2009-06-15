@@ -4,10 +4,10 @@ from munin.postgres import MuninPostgresPlugin
 
 class MuninPostgresLocksPlugin(MuninPostgresPlugin):
     dbname_in_args = False
-    graph_title = "Postgres locks"
-    graph_args = "--base 1000"
-    graph_vlabel = "Locks"
-    graph_info = "Shows Postgresql locks"
+    title = "Postgres locks"
+    args = "--base 1000"
+    vlabel = "Locks"
+    info = "Shows Postgresql locks"
     fields = (
         ('locks', dict(
             label = "Locks",

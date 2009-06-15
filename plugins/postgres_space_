@@ -4,9 +4,9 @@ from munin.postgres import MuninPostgresPlugin
 
 class MuninPostgresSpacePlugin(MuninPostgresPlugin):
     dbname_in_args = True
-    graph_args = "-l 0 --base 1024"
-    graph_vlabel = "bytes"
-    graph_info = "Size of database"
+    args = "-l 0 --base 1024"
+    vlabel = "bytes"
+    info = "Size of database"
     fields = dict(
         size = dict(
             label = "Database size (bytes)",
@@ -35,7 +35,7 @@ class MuninPostgresSpacePlugin(MuninPostgresPlugin):
     )
 
     @property
-    def graph_title(self):
+    def title(self):
         return "Postgres size of database %s" % self.dbname
 
     def execute(self):
