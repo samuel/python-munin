@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import os
-import socket
 from munin.memcached import MuninMemcachedPlugin
 
 class MuninMemcachedQueriesPlugin(MuninMemcachedPlugin):
