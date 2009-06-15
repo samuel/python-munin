@@ -9,7 +9,7 @@ from munin import MuninPlugin
 class MuninRequestTimePlugin(MuninPlugin):
     title = "Request Time"
     args = "--base 1000"
-    vlabel = "seconds / request"
+    vlabel = "seconds"
     info = "Time for a request to complete"
 
     def __init__(self):
