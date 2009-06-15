@@ -58,7 +58,7 @@ class MuninPostgresQueriesPlugin(MuninPostgresPlugin):
                     info = v['label'],
                     type = "DERIVE",
                     min = "0",
-                )) for k, v in self.field_types.iteritems()]
+                )) for k, v in self.field_types]
 
     def execute(self):
         c = self.cursor()
