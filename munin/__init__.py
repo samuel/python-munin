@@ -36,8 +36,14 @@ class MuninPlugin(object):
         if cmd == "execute":
             self.execute()
         elif cmd == "autoconf":
-            if not self.autoconf():
+            try:
+                ac = self.autoconf()
+            except Exception, exc:
+                print "no (%s)" % str(exc)
+                sys.exit(1)
+            if not ac:
                 print "no"
+                sys.exit(1)
             print "yes"
         elif cmd == "config":
             self.config()
