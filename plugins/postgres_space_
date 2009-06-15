@@ -7,31 +7,31 @@ class MuninPostgresSpacePlugin(MuninPostgresPlugin):
     args = "-l 0 --base 1024"
     vlabel = "bytes"
     info = "Size of database"
-    fields = dict(
-        size = dict(
+    fields = (
+        ('size', dict(
             label = "Database size (bytes)",
             info = "Database size",
             type = "GAUGE",
             draw = "AREA",
-        ),
-        indexsize = dict(
+        )),
+        ('indexsize', dict(
             label = "Index size (bytes)",
             info = "Index size",
             type = "GAUGE",
             draw = "AREA",
-        ),
-        metasize = dict(
+        )),
+        ('metasize', dict(
             label = "Meta size (bytes)",
             info = "Meta size",
             type = "GAUGE",
             draw = "AREA",
-        ),
-        metaindexsize = dict(
+        )),
+        ('metaindexsize', dict(
             label = "Meta Index size (bytes)",
             info = "Meta Index size",
             type = "GAUGE",
             draw = "AREA",
-        ),
+        )),
     )
 
     @property
@@ -41,34 +41,44 @@ class MuninPostgresSpacePlugin(MuninPostgresPlugin):
     def execute(self):
         c = self.cursor()
 
-        c.execute("SELECT oid FROM pg_namespace WHERE nspname = 'public'")
-        public_ns_oid = c.fetchone()[0]
+        namespaces = {}
+        c.execute("SELECT oid, nspname FROM pg_namespace")
+        for row in c.fetchall():
+            namespaces[row[0]] = row[1]
 
         query = (
-            "SELECT relnamespace, relkind, relfilenode, relpages"
-            " FROM pg_class"
-            "UNION"
-            "SELECT relkind, relfilenode, relpages"
-            " FROM pg_class"
-            " WHERE relfilenode IN ("
-            "  SELECT indexrelid"
-            "   FROM pg_index"
-            "   WHERE indrelid IN ("
-            "    SELECT relfilenode"
-            "     FROM pg_class"
-            "     WHERE relname = %s))")
+            "SELECT relname, relnamespace, relkind, relfilenode, relpages"
+            " FROM pg_class WHERE relkind IN ('r', 'i')")
 
         database_pages = 0
         database_indexes = 0
         metadatabase_pages = 0
         metadatabase_indexes = 0
-        for row in 
-            meta = 1
-            table_pages = 0
-            table_indexes = 0
-            metatable_pages = 0
-            metatable_indexes = 0
 
+        c.execute(query)
+        for row in c.fetchall():
+            relname, relnamespace, relkind, relfilenode, relpages = row
+            ns = namespaces[relnamespace]
+            if ns.startswith('pg_toast'):
+                continue
+
+            meta = ns.startswith('pg_') or ns == "information_schema"
+
+            c2 = self.cursor()
+            c2.execute("SELECT SUM(relpages) FROM pg_class WHERE relname IN (%s, %s)",  
+                ("pg_toast_%s" % relfilenode, "pg_toast_%s_index" % relfilenode))
+            relpages2 = int(c2.fetchone()[0] or '0')
+
+            if relkind == "r":  # Regular table
+                if meta:
+                    metadatabase_pages += int(relpages) + relpages2
+                else:
+                    database_pages += int(relpages) + relpages2
+            elif relkind == "i": # Index
+                if meta:
+                    metadatabase_indexes += int(relpages) + relpages2
+                else:
+                    database_indexes += int(relpages) + relpages2
 
         print "size.value %d" % (database_pages * 8192)
         print "indexsize.value %d" % (database_indexes * 8192)
