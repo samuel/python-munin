@@ -1,0 +1,79 @@
+#!/usr/bin/env python
+
+from munin.postgres import MuninPostgresPlugin
+
+class MuninPostgresSpacePlugin(MuninPostgresPlugin):
+    dbname_in_args = True
+    graph_args = "-l 0 --base 1024"
+    graph_vlabel = "bytes"
+    graph_info = "Size of database"
+    fields = dict(
+        size = dict(
+            label = "Database size (bytes)",
+            info = "Database size",
+            type = "GAUGE",
+            draw = "AREA",
+        ),
+        indexsize = dict(
+            label = "Index size (bytes)",
+            info = "Index size",
+            type = "GAUGE",
+            draw = "AREA",
+        ),
+        metasize = dict(
+            label = "Meta size (bytes)",
+            info = "Meta size",
+            type = "GAUGE",
+            draw = "AREA",
+        ),
+        metaindexsize = dict(
+            label = "Meta Index size (bytes)",
+            info = "Meta Index size",
+            type = "GAUGE",
+            draw = "AREA",
+        ),
+    )
+
+    @property
+    def graph_title(self):
+        return "Postgres size of database %s" % self.dbname
+
+    def execute(self):
+        c = self.cursor()
+
+        c.execute("SELECT oid FROM pg_namespace WHERE nspname = 'public'")
+        public_ns_oid = c.fetchone()[0]
+
+        query = (
+            "SELECT relnamespace, relkind, relfilenode, relpages"
+            " FROM pg_class"
+            "UNION"
+            "SELECT relkind, relfilenode, relpages"
+            " FROM pg_class"
+            " WHERE relfilenode IN ("
+            "  SELECT indexrelid"
+            "   FROM pg_index"
+            "   WHERE indrelid IN ("
+            "    SELECT relfilenode"
+            "     FROM pg_class"
+            "     WHERE relname = %s))")
+
+        database_pages = 0
+        database_indexes = 0
+        metadatabase_pages = 0
+        metadatabase_indexes = 0
+        for row in 
+            meta = 1
+            table_pages = 0
+            table_indexes = 0
+            metatable_pages = 0
+            metatable_indexes = 0
+
+
+        print "size.value %d" % (database_pages * 8192)
+        print "indexsize.value %d" % (database_indexes * 8192)
+        print "metasize.value %d" % (metadatabase_pages * 8192)
+        print "metaindexsize.value %d" % (metadatabase_indexes * 8192)
+
+if __name__ == "__main__":
+    MuninPostgresSpacePlugin().run()
