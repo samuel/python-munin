@@ -1,4 +1,18 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+Based on a plugin by BjØrn Ruberg.
+
+Plugin to monitor PostgreSQL query rate; returns the number of 
+sequential scans initiated, rows returned by sequential reads,
+index scans initiated, rows returned by index scans, inserts,
+updates, and deletes.
+
+Find out more at 
+ http://www.postgresql.org/docs/8.2/interactive/monitoring-stats.html
+ (should work with PostgreSQL 7.x and 8.x)
+"""
 
 from munin.postgres import MuninPostgresPlugin
 
