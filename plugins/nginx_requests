@@ -11,7 +11,7 @@ class MuninNginxRequestsPlugin(MuninNginxPlugin):
     vlabel = "Requests per second"
     fields = (
         ('request', dict(
-            label = "req/sec",
+            label = "Requests",
             type = "DERIVE",
             min = "0",
             draw = "LINE2",
