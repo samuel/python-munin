@@ -14,19 +14,19 @@ class MuninGearmanConnectionsPlugin(MuninPlugin):
     category = "Gearman"
     fields = (
         ('total', dict(
-            label = "Total connections",
+            label = "Total",
             type = "GAUGE",
             draw = "LINE2",
             min = "0",
         )),
         ('workers', dict(
-            label = "Worker connections",
+            label = "Workers",
             type = "GAUGE",
             draw = "LINE2",
             min = "0",
         )),
         ('clients', dict(
-            label = "Client connections",
+            label = "Clients",
             type = "GAUGE",
             draw = "LINE2",
             min = "0",
