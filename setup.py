@@ -2,9 +2,11 @@
 
 from distutils.core import setup
 
+from munin import __version__ as version
+
 setup(
     name = 'munin',
-    version = '1.0.0',
+    version = version,
     description = 'Framework for building Munin plugins',
     author = 'Samuel Stauffer',
     author_email = 'samuel@lefora.com',
@@ -12,7 +14,9 @@ setup(
     packages = ['munin'],
     classifiers = [
         'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
+        'Topic :: Software Development :: Libraries :: Python Modules',
     ],
 )
