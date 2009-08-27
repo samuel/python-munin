@@ -4,6 +4,7 @@ __version__ = "1.0.1"
 import os
 import sys
 import socket
+from decimal import Decimal
 
 class MuninPlugin(object):
     title = ""
