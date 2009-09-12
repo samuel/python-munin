@@ -23,9 +23,11 @@ class MuninPlugin(object):
 
     def config(self):
         conf = []
-        for k in ('title', 'category', 'args', 'vlabel', 'info'):
-            v = getattr(self, k)
-            if v:
+        for k in ('title', 'category', 'args', 'vlabel', 'info', 'scaled'):
+            v = getattr(self, k, None)
+            if v is not None:
+                if isinstance(v, bool):
+                    v = "yes" if v else "no"
                 conf.append('graph_%s %s' % (k, v))
 
         for field_name, field_args in self.fields:
