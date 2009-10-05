@@ -5,20 +5,20 @@ from munin.memcached import MuninMemcachedPlugin
 class MuninMemcachedBytesPlugin(MuninMemcachedPlugin):
     title = "Memcached bytes read/written stats"
     args = "--base 1024"
-    vlabel = "bytes per ${graph_period}"
+    vlabel = "bytes read (-) / written (+) per ${graph_period}"
     info = "bytes read/writter stats"
+    order = ("bytes_read", "bytes_written")
     fields = (
         ('bytes_read', dict(
             label = "bytes read",
-            info = "bytes read",
-            type = "DERIVE",
-            min = "0",
+            type = "COUNTER",
+            graph = "no",
         )),
         ('bytes_written', dict(
-            label = "bytes written",
-            info = "bytes written",
-            type = "DERIVE",
-            min = "0",
+            label = "Bps",
+            info = "Bytes read/written",
+            type = "COUNTER",
+            negative = "bytes_read",
         )),
     )
 
