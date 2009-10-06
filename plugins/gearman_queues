@@ -19,10 +19,10 @@ class MuninGearmanQueuesPlugin(MuninGearmanPlugin):
         fs = []
         for q in self.queues:
             for k in self._info_keys:
-                name = "%s_%s" % (q.replace('.', '_'), k)
-                fs.append((name, dict(
-                        label = name,
-                        info = name,
+                label = "%s %s" % (q, k)
+                fs.append(("%s_%s" % (q.replace('.', '_'), k), dict(
+                        label = label,
+                        info = label,
                         type = "GAUGE",
                     )))
         return fs
