@@ -19,7 +19,7 @@ class MuninGearmanQueuesPlugin(MuninGearmanPlugin):
         fs = []
         for q in self.queues:
             for k in self._info_keys:
-                name = "%s_%s" % (q, k)
+                name = "%s_%s" % (q.replace('.', '_'), k)
                 fs.append((name, dict(
                         label = name,
                         info = name,
@@ -32,7 +32,7 @@ class MuninGearmanQueuesPlugin(MuninGearmanPlugin):
         for q in self.queues:
             if q in status:
                 for k in self._info_keys:
-                    print "%s_%s.value %d" % (q, k, status[q][k])
+                    print "%s_%s.value %d" % (q.replace('.', '_'), k, status[q][k])
 
 if __name__ == "__main__":
     MuninGearmanQueuesPlugin().run()
