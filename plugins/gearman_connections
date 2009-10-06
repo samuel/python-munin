@@ -1,17 +1,11 @@
 #!/usr/bin/env python
 
-import os
-import re
-import socket
-from munin import MuninPlugin
+from munin.gearman import MuninGearmanPlugin
 
-worker_re = re.compile(r'^(?P<fd>\d+) (?P<ip>[\d\.]+) (?P<client_id>[^\s]+) :\s?(?P<abilities>.*)$')
-
-class MuninGearmanConnectionsPlugin(MuninPlugin):
+class MuninGearmanConnectionsPlugin(MuninGearmanPlugin):
     title = "Gearman Connections"
     args = "--base 1000"
     vlabel = "Connections"
-    category = "Gearman"
     fields = (
         ('total', dict(
             label = "Total",
@@ -32,31 +26,6 @@ class MuninGearmanConnectionsPlugin(MuninPlugin):
             min = "0",
         )),
     )
-
-    def __init__(self):
-        super(MuninGearmanConnectionsPlugin, self).__init__()
-        addr = os.environ.get('GM_SERVER') or "127.0.0.1"
-        port = int(addr.split(':')[-1]) if ':' in addr else 4730
-        host = addr.split(':')[0]
-        self.addr = (host, port)
-
-    def get_workers(self):
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect(self.addr)
-        s.send("workers\n")
-        buf = ""
-        while ".\n" not in buf:
-            buf += s.recv(8192)
-
-        info = []
-        for l in buf.split('\n'):
-            if l.strip() == '.':
-                break
-            m = worker_re.match(l)
-            i = m.groupdict()
-            i['abilities'] = [x for x in i['abilities'].split(' ') if x]
-            info.append(i)
-        return info
 
     def execute(self):
         workers = self.get_workers()
