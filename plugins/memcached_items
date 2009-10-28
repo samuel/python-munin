@@ -3,14 +3,14 @@
 from munin.memcached import MuninMemcachedPlugin
 
 class MuninMemcachedItemsPlugin(MuninMemcachedPlugin):
-    title = "Memcached items stats"
+    title = "Memcached new items stats"
     args = "--base 1000"
     vlabel = "Items"
     info = "items stats"
     fields = (
         ('total_items', dict(
             label = "items",
-            info = "number new items",
+            info = "number of new items",
             type = "COUNTER",
         )),
     )
