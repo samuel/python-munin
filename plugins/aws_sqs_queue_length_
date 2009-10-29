@@ -37,7 +37,7 @@ class AWSSQSQueueLengthPlugin(MuninPlugin):
         conn = SQSConnection(self.api_key, self.secret_key)
         for qname in self.queues:
             q = conn.get_queue(qname)
-            print "%s.value %d" % (qname, q.count())
+            print "%s.value %s" % (qname, q.count())
 
 if __name__ == "__main__":
     AWSSQSQueueLengthPlugin().run()
