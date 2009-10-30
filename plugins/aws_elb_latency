@@ -17,7 +17,7 @@ class AWSCloudWatchELBLatencyPlugin(MuninPlugin):
 
     @property
     def title(self):
-        return "Seconds of latency for ELBs '%s'" % ",".join(self.elb_names)
+        return "Seconds of latency for ELBs"
 
     @property
     def fields(self):
