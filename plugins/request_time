@@ -2,7 +2,7 @@
 
 import os
 from time import time
-from urllib2 import urlopen
+from urllib2 import urlopen, Request
 
 from munin import MuninPlugin
 
@@ -18,7 +18,13 @@ class MuninRequestTimePlugin(MuninPlugin):
         self.urls = []
         for k, v in os.environ.iteritems():
             if k.startswith('RT_URL'):
-                self.urls.append(tuple(v.split('=', 1)))
+                name, url = tuple(v.split('=', 1))
+                url = url.split('|')
+                headers = {}
+                if len(url) > 1:
+                    headers = dict(x.split('=') for x in url[1:])
+                url = url[0]
+                self.urls.append((name, url, headers))
         self.urls.sort()
 
     @property
@@ -28,13 +34,14 @@ class MuninRequestTimePlugin(MuninPlugin):
                 label = name,
                 type = "GAUGE",
                 min = "0",
-            )) for name, url in self.urls
+            )) for name, url, headers in self.urls
         ]
 
     def execute(self):
-        for name, url in self.urls:
+        for name, url, headers in self.urls:
             t = time()
-            urlopen(url).read()
+            req = Request(url, headers=headers)
+            urlopen(req).read()
             dt = time() - t
             if self.bound_time:
                 dt = min(dt, self.bound_time)
