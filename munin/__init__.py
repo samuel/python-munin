@@ -15,7 +15,10 @@ class MuninPlugin(object):
     fields = []
 
     def __init__(self):
-        self.category = os.environ.get('GRAPH_CATEGORY') or self.category
+        if 'GRAPH_TITLE' in os.environ:
+            self.title = os.environ['GRAPH_TITLE']
+        if 'GRAPH_CATEGORY' in os.environ:
+            self.category = os.environ['GRAPH_CATEGORY']
         super(MuninPlugin, self).__init__()
 
     def autoconf(self):
