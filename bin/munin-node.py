@@ -40,7 +40,7 @@ class MuninRequestHandler(SocketServer.StreamRequestHandler):
             line = line.strip()
 
             cmd = line.split(' ', 1)
-            plugin = cmd[1] if len(cmd) > 1 else None
+            plugin = (len(cmd) > 1) and cmd[1] or None
 
             if cmd[0] == "list":
                 self.wfile.write("%s\n" % " ".join(plugins))
