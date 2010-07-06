@@ -52,9 +52,7 @@ class MuninRequestHandler(SocketServer.StreamRequestHandler):
                 if plugin not in plugins:
                     self.wfile.write("# Unknown service\n.\n")
                     continue
-                c = ""
-                if cmd[0] == "config":
-                    c = "config"
+                c = (cmd[0] == "config") and "config" or ""
                 out = execute_plugin(os.path.join(self.server.options.plugin_path, plugin), c)
                 self.wfile.write(out)
                 if out and out[-1] != "\n":
