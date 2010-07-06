@@ -30,7 +30,7 @@ class MuninPlugin(object):
             v = getattr(self, k, None)
             if v is not None:
                 if isinstance(v, bool):
-                    v = "yes" if v else "no"
+                    v = v and "yes" or "no"
                 elif isinstance(v, (tuple, list)):
                     v = " ".join(v)
                 conf.append('graph_%s %s' % (k, v))
