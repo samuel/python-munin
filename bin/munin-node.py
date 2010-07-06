@@ -22,7 +22,7 @@ def execute_plugin(path, cmd=""):
     args = [path]
     if cmd:
         args.append(cmd)
-    p = Popen([args, stdout=PIPE)
+    p = Popen(args, stdout=PIPE)
     output = p.communicate()[0]
     return output
 
