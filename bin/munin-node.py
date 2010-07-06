@@ -19,7 +19,10 @@ def parse_args():
 
 
 def execute_plugin(path, cmd=""):
-    p = Popen([path] + ([cmd] if cmd else []), stdout=PIPE)
+    args = [path]
+    if cmd:
+        args.append(cmd)
+    p = Popen([args, stdout=PIPE)
     output = p.communicate()[0]
     return output
 
@@ -49,7 +52,10 @@ class MuninRequestHandler(SocketServer.StreamRequestHandler):
                 if plugin not in plugins:
                     self.wfile.write("# Unknown service\n.\n")
                     continue
-                out = execute_plugin(os.path.join(self.server.options.plugin_path, plugin), "config" if cmd[0] == "config" else "")
+                c = ""
+                if cmd[0] == "config":
+                    c = "config"
+                out = execute_plugin(os.path.join(self.server.options.plugin_path, plugin), c)
                 self.wfile.write(out)
                 if out and out[-1] != "\n":
                     self.wfile.write("\n")
