@@ -3,6 +3,7 @@
 import os
 import socket
 import SocketServer
+import sys
 import threading
 import time
 from subprocess import Popen, PIPE
@@ -67,10 +68,13 @@ class MuninServer(SocketServer.ThreadingMixIn, SocketServer.TCPServer):
 
 if __name__ == "__main__":
     HOST, PORT = "0.0.0.0", 4949
-    server = MuninServer((HOST, PORT), MuninRequestHandler, bind_and_activate=False)
-    server.allow_reuse_address = True
-    server.server_bind()
-    server.server_activate()
+    if sys.version_info[:3] >= (2, 6, 0):
+        server = MuninServer((HOST, PORT), MuninRequestHandler, bind_and_activate=False)
+        server.allow_reuse_address = True
+        server.server_bind()
+        server.server_activate()
+    else:
+        server = MuninServer((HOST, PORT), MuninRequestHandler)
     ip, port = server.server_address
     options, args = parse_args()
     options.plugin_path = os.path.abspath(options.plugin_path)
