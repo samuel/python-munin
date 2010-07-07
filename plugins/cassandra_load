@@ -5,7 +5,7 @@ from munin.cassandra import MuninCassandraPlugin
 
 class CassandraLoadPlugin(MuninCassandraPlugin):
     title = "load (data stored in node)"
-    args = "--base 1000 -l 0"
+    args = "--base 1024 -l 0"
     vlabel = "bytes"
     fields = [
         ('load', dict(
