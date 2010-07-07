@@ -8,6 +8,8 @@ from subprocess import Popen, PIPE
 
 from munin import MuninPlugin
 
+space_re = re.compile(r"\s+")
+
 class MuninCassandraPlugin(MuninPlugin):
     category = "Cassandra"
 
@@ -68,3 +70,11 @@ class MuninCassandraPlugin(MuninPlugin):
         info['Load'] = int(l_num * scale)
         info['token'] = token
         return info
+
+    def tpstats(self):
+        out = self.execute_nodetool("tpstats")
+        tpstats = {}
+        for line in out.strip().split('\n')[1:]:
+            name, active, pending, completed = space_re.split(line)
+            tpstats[name] = dict(active=int(active), pending=int(pending), completed=int(completed))
+        return tpstats
