@@ -31,6 +31,8 @@ class CassandraKeyCacheRatioPlugin(MuninCassandraPlugin):
             for cf, cfstats in kfstats['cf'].items():
                 if cfstats['Key cache hit rate'] != 'NaN':
                     print "%s_%s.value" % (kf, cf), cfstats['Key cache hit rate']
+                else:
+                    print "%s_%s.value U" % (kf, cf)
 
 if __name__ == "__main__":
     CassandraKeyCacheRatioPlugin().run()
