@@ -7,6 +7,7 @@ class CassandraKeyCacheRatioPlugin(MuninCassandraPlugin):
     title = "key cache hit ratio"
     args = "--base 1000 -l 0"
     vlabel = "ratio"
+    scale = False
 
     @property
     def fields(self):
@@ -20,6 +21,7 @@ class CassandraKeyCacheRatioPlugin(MuninCassandraPlugin):
                         label = label,
                         info = label,
                         type = "GAUGE",
+                        max = "1",
                         min = "0",
                     )))
         return fs
