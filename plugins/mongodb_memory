@@ -6,7 +6,7 @@ from munin.mongodb import MuninMongoDBPlugin
 class MongoDBMemoryPlugin(MuninMongoDBPlugin):
     args = "-l 0 --base 1024"
     vlabel = "bytes"
-    tital = "MongoDB memory usage"
+    title = "MongoDB memory usage"
     info = "Memory usage"
     fields = (
         ('virtual', dict(
