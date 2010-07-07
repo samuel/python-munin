@@ -42,7 +42,7 @@ class CassandraLatencyPlugin(MuninCassandraPlugin):
                     if latency == 'NaN':
                         latency = 'U'
                     else:
-                        latency = float(latency) * 1000
+                        latency = float(latency) / 1000
                     print "%s_%s.value" % (name, k), latency
 
 if __name__ == "__main__":
