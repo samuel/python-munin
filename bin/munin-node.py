@@ -87,7 +87,15 @@ class MuninRequestHandler(SocketServer.StreamRequestHandler):
     def handle(self):
         # self.rfile is a file-like object created by the handler;
         # we can now use e.g. readline() instead of raw recv() calls
-        plugins = [x for x in os.listdir(self.server.options.plugin_path) if not x.startswith('.')]
+        plugins = []
+        for x in os.listdir(self.server.options.plugin_path):
+            if x.startswith('.'):
+                continue
+            fullpath = os.path.join(self.server.options.plugin_path, x)
+            if not os.path.isfile(fullpath):
+                continue
+            plugins.append(x)
+            
         node_name = socket.gethostname().split('.')[0]
         self.wfile.write("# munin node at %s\n" % node_name)
         while True:

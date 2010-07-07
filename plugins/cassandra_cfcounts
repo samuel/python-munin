@@ -13,6 +13,8 @@ class CassandraCFCountsPlugin(MuninCassandraPlugin):
         fs = []
         cfstats = self.cfstats()
         for kf, kfstats in cfstats.items():
+            if not self.keyspaces or kf not in self.keyspaces:
+                continue
             for cf, cfstats in kfstats['cf'].items():
                 name = "%s_%s_reads" % (kf, cf)
                 label = "%s.%s reads" % (kf, cf)
@@ -35,6 +37,8 @@ class CassandraCFCountsPlugin(MuninCassandraPlugin):
     def execute(self):
         cfstats = self.cfstats()
         for kf, kfstats in cfstats.items():
+            if not self.keyspaces or kf not in self.keyspaces:
+                continue
             for cf, cfstats in kfstats['cf'].items():
                 name = "%s_%s" % (kf, cf)
                 print "%s_reads.value" % name, cfstats['Read Count']
