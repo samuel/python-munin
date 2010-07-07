@@ -29,7 +29,7 @@ class MongoDBMemoryPlugin(MuninMongoDBPlugin):
         )),
     )
 
-    def run(self):
+    def execute(self):
         status = self.connection.admin.command('serverStatus')
         print "virtual.value", status["mem"]["virtual"]
         print "resident.value", status["mem"]["resident"]

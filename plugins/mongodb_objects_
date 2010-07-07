@@ -20,7 +20,7 @@ class MongoDBObjectsPlugin(MuninMongoDBPlugin):
     def title(self):
         return "MongoDB objects in database %s" % self.dbname
 
-    def run(self):
+    def execute(self):
         stats = self.db.command("dbstats")
         print "objects.value", stats['objects']
 

@@ -2,8 +2,9 @@
 
 import os
 import sys
+from munin import MuninPlugin
 
-class MuninMongoDBPlugin(object):
+class MuninMongoDBPlugin(MuninPlugin):
     dbname_in_args = False
     category = "MongoDB"
 
@@ -34,4 +35,4 @@ class MuninMongoDBPlugin(object):
         return self._db
 
     def autoconf(self):
-        return bool(self.connection())
+        return bool(self.connection)
