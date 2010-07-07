@@ -31,9 +31,8 @@ class MongoDBMemoryPlugin(MuninMongoDBPlugin):
 
     def execute(self):
         status = self.connection.admin.command('serverStatus')
-        print "virtual.value", status["mem"]["virtual"]
-        print "resident.value", status["mem"]["resident"]
-        print "mapped.value", status["mem"]["mapped"]
+        for k in ("virtual", "resident", "mapped"):
+            print "%s.value" % k, int(status["mem"][k]) * 1024
 
 if __name__ == "__main__":
     MongoDBMemoryPlugin().run()
