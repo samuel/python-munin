@@ -7,7 +7,7 @@ class MongoDBObjectsPlugin(MuninMongoDBPlugin):
     args = "--base 1000"
     vlabel = "objects"
     info = "Number of objects stored"
-    field_types = (
+    fields = (
         ('objects', dict(
             label = "objects",
             info = "Number of objects stored",

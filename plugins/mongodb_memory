@@ -8,7 +8,7 @@ class MongoDBMemoryPlugin(MuninMongoDBPlugin):
     vlabel = "bytes"
     tital = "MongoDB memory usage"
     info = "Memory usage"
-    field_types = (
+    fields = (
         ('virtual', dict(
             label = "virtual",
             info = "Bytes of virtual memory",
