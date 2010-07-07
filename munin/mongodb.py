@@ -4,14 +4,14 @@ import os
 import sys
 
 class MuninMongoDBPlugin(object):
-    dbname_in_args = True
+    dbname_in_args = False
     category = "MongoDB"
 
     def __init__(self):
         super(MuninMongoDBPlugin, self).__init__()
 
         self.dbname = ((sys.argv[0].rsplit('_', 1)[-1] if self.dbname_in_args else None)
-            or os.environ['MONGODB_DATABASE'])
+            or os.environ.get('MONGODB_DATABASE') or None)
         host = os.environ.get('MONGODB_SERVER') or 'localhost'
         if ':' in host:
             host, port = host.split(':')
