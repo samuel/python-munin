@@ -4,11 +4,10 @@ import os
 from munin.cassandra import MuninCassandraPlugin
 
 class CassandraCFCountsPlugin(MuninCassandraPlugin):
-    title = "Cassandra column family stats"
+    title = "read/write rate"
     args = "--base 1000 -l 0"
-    vlabel = "load"
+    vlabel = "ops per ${graph_period}"
     scaled = False
-    category = "system"
 
     @property
     def fields(self):
@@ -16,16 +15,19 @@ class CassandraCFCountsPlugin(MuninCassandraPlugin):
         cfstats = self.cfstats()
         for kf, kfstats in cfstats.items():
             for cf, cfstats in kfstats['cf'].items():
-                name = "%s_%s" % (kf, cf)
-                fs.append((name + "_reads", dict(
-                        label = name,
-                        info = name,
+                name = "%s_%s_reads" % (kf, cf)
+                label = "%s.%s reads" % (kf, cf)
+                fs.append((name, dict(
+                        label = label,
+                        info = label,
                         type = "COUNTER",
                         min = "0",
                     )))
-                fs.append((name + "_writes", dict(
-                        label = name,
-                        info = name,
+                name = "%s_%s_writes" % (kf, cf)
+                label = "%s.%s writes" % (kf, cf)
+                fs.append((name, dict(
+                        label = label,
+                        info = label,
                         type = "COUNTER",
                         min = "0",
                     )))
