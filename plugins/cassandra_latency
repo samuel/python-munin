@@ -6,7 +6,7 @@ from munin.cassandra import MuninCassandraPlugin
 class CassandraLatencyPlugin(MuninCassandraPlugin):
     title = "read/write latency"
     args = "--base 1000 -l 0"
-    vlabel = "ms"
+    vlabel = "seconds"
 
     @property
     def fields(self):
@@ -37,8 +37,13 @@ class CassandraLatencyPlugin(MuninCassandraPlugin):
         for kf, kfstats in cfstats.items():
             for cf, cfstats in kfstats['cf'].items():
                 name = "%s_%s" % (kf, cf)
-                print "%s_read.value" % name, cfstats['Read Latency'].split(' ')[0]
-                print "%s_write.value" % name, cfstats['Write Latency'].split(' ')[0]
+                for k, n in (('read', 'Read Latency'), ('write', 'Write Latency')):
+                    latency = cfstats[n].split(' ')[0]
+                    if latency == 'NaN':
+                        latency = 'U'
+                    else:
+                        latency = float(latency) * 1000
+                    print "%s_%s.value" % (name, k), latency
 
 if __name__ == "__main__":
     CassandraLatencyPlugin().run()
