@@ -45,7 +45,7 @@ class MuninPlugin(object):
         sys.exit(1)
 
     def run(self):
-        cmd = (sys.argv[1] if len(sys.argv) > 1 else None) or "execute"
+        cmd =  ((len(sys.argv) > 1) and sys.argv[1] or None) or "execute"
         if cmd == "execute":
             self.execute()
         elif cmd == "autoconf":

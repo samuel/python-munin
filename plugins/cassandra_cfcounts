@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+
+import os
+from munin.cassandra import MuninCassandraPlugin
+
+class CassandraCFCountsPlugin(MuninCassandraPlugin):
+    title = "Cassandra column family stats"
+    args = "--base 1000 -l 0"
+    vlabel = "load"
+    scaled = False
+    category = "system"
+
+    @property
+    def fields(self):
+        fs = []
+        cfstats = self.cfstats()
+        for kf, kfstats in cfstats.items():
+            for cf, cfstats in kfstats['cf'].items():
+                name = "%s_%s" % (kf, cf)
+                fs.append((name + "_reads", dict(
+                        label = name,
+                        info = name,
+                        type = "COUNTER",
+                        min = "0",
+                    )))
+                fs.append((name + "_writes", dict(
+                        label = name,
+                        info = name,
+                        type = "COUNTER",
+                        min = "0",
+                    )))
+        return fs
+
+    def execute(self):
+        cfstats = self.cfstats()
+        for kf, kfstats in cfstats.items():
+            for cf, cfstats in kfstats['cf'].items():
+                name = "%s_%s" % (kf, cf)
+                print "%s_reads.value" % name, cfstats['Read Count']
+                print "%s_writes.value" % name, cfstats['Write Count']
+
+if __name__ == "__main__":
+    CassandraCFCountsPlugin().run()
