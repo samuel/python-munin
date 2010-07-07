@@ -19,7 +19,7 @@ class MongoDBLockRatio(MuninMongoDBPlugin):
 
     def execute(self):
         status = self.connection.admin.command('serverStatus')
-        print "lockratio.value", int(status["globalLock"]["ratio"])
+        print "lockratio.value", status["globalLock"]["ratio"]
 
 if __name__ == "__main__":
     MongoDBLockRatio().run()
