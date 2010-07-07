@@ -5,7 +5,7 @@ from munin.mongodb import MuninMongoDBPlugin
 
 class MongoDBFlushAvg(MuninMongoDBPlugin):
     args = "-l 0 --base 1000"
-    vlabel = "time"
+    vlabel = "seconds"
     title = "MongoDB background flushes interval"
     info = "The average time between background flushes"
     fields = (
@@ -19,7 +19,7 @@ class MongoDBFlushAvg(MuninMongoDBPlugin):
 
     def execute(self):
         status = self.connection.admin.command('serverStatus')
-        print "flushavg.value", float(status["backgroundFlushing"]["average_ms"])*1000
+        print "flushavg.value", float(status["backgroundFlushing"]["average_ms"])/1000
 
 if __name__ == "__main__":
     MongoDBFlushAvg().run()
