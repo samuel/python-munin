@@ -21,7 +21,7 @@ class CassandraCFCountsPlugin(MuninCassandraPlugin):
                 fs.append((name, dict(
                         label = label,
                         info = label,
-                        type = "COUNTER",
+                        type = "DERIVE",
                         min = "0",
                     )))
                 name = "%s_%s_writes" % (kf, cf)
@@ -29,7 +29,7 @@ class CassandraCFCountsPlugin(MuninCassandraPlugin):
                 fs.append((name, dict(
                         label = label,
                         info = label,
-                        type = "COUNTER",
+                        type = "DERIVE",
                         min = "0",
                     )))
         return fs
