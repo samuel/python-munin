@@ -26,7 +26,7 @@ class MuninPlugin(object):
 
     def config(self):
         conf = []
-        for k in ('title', 'category', 'args', 'vlabel', 'info', 'scaled', 'order'):
+        for k in ('title', 'category', 'args', 'vlabel', 'info', 'scale', 'order'):
             v = getattr(self, k, None)
             if v is not None:
                 if isinstance(v, bool):

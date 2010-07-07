@@ -7,7 +7,6 @@ class CassandraCFCountsPlugin(MuninCassandraPlugin):
     title = "read/write rate"
     args = "--base 1000 -l 0"
     vlabel = "ops per ${graph_period}"
-    scaled = False
 
     @property
     def fields(self):

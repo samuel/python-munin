@@ -16,7 +16,7 @@ class LoadAVGPlugin(MuninPlugin):
     title = "Load average"
     args = "--base 1000 -l 0"
     vlabel = "load"
-    scaled = False
+    scale = False
     category = "system"
 
     @property
