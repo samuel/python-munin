@@ -8,7 +8,6 @@ class MongoDBLockRatio(MuninMongoDBPlugin):
     vlabel = "ratio"
     title = "MongoDB global lock time ratio"
     info = "How long the global lock has been held compared to the global execution time"
-    scale = False
     fields = (
         ('lockratio', dict(
             label = "Global lock time ratio",
