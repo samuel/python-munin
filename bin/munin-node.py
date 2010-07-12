@@ -123,6 +123,8 @@ class MuninRequestHandler(SocketServer.StreamRequestHandler):
                 if out and out[-1] != "\n":
                     self.wfile.write("\n")
                 self.wfile.write(".\n")
+            elif cmd[0] == "quit":
+                break
             else:
                 self.wfile.write("# Unknown command. Try list, nodes, config, fetch, version or quit\n")
 
