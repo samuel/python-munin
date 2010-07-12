@@ -11,8 +11,12 @@ class MuninMongoDBPlugin(MuninPlugin):
     def __init__(self):
         super(MuninMongoDBPlugin, self).__init__()
 
-        self.dbname = ((sys.argv[0].rsplit('_', 1)[-1] if self.dbname_in_args else None)
-            or os.environ.get('MONGODB_DATABASE') or None)
+        self.dbname = None
+        if self.dbname_in_args:
+            self.dbname = sys.argv[0].rsplit('_', 1)[-1]
+        if not self.dbname:
+            self.dbname = os.environ.get('MONGODB_DATABASE')
+
         host = os.environ.get('MONGODB_SERVER') or 'localhost'
         if ':' in host:
             host, port = host.split(':')
