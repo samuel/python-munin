@@ -23,13 +23,13 @@ class MuninMongoDBPlugin(MuninPlugin):
             port = int(port)
         else:
             port = 27017
-        self.server = (host, 27017)
+        self.server = (host, port)
 
     @property
     def connection(self):
         if not hasattr(self, '_connection'):
             import pymongo
-            self._connection = pymongo.Connection(*self.server)
+            self._connection = pymongo.Connection(self.server[0], self.server[1], slave_okay=True)
         return self._connection
 
     @property
