@@ -19,7 +19,11 @@ class MongoDBLockTime(MuninMongoDBPlugin):
 
     def execute(self):
         status = self.connection.admin.command('serverStatus')
-        print "locktime.value", int(status["globalLock"]["lockTime"])
+        try:
+            value = int(status["globalLock"]["lockTime"])
+        except KeyError:
+            value = "U"
+        print "locktime.value", value
 
 if __name__ == "__main__":
     MongoDBLockTime().run()
