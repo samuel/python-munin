@@ -19,7 +19,11 @@ class MongoDBFlushAvg(MuninMongoDBPlugin):
 
     def execute(self):
         status = self.connection.admin.command('serverStatus')
-        print "flushavg.value", float(status["backgroundFlushing"]["average_ms"])/1000
+        try:
+            value = float(status["backgroundFlushing"]["average_ms"])/1000
+        except KeyError:
+            value = "U"
+        print "flushavg.value", value
 
 if __name__ == "__main__":
     MongoDBFlushAvg().run()
