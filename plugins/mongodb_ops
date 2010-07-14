@@ -16,7 +16,7 @@ class MongoDBOpsPlugin(MuninMongoDBPlugin):
             (op, dict(
                 label = "%s operations" % op,
                 info = "%s operations" % op,
-                type = "COUNTER",
+                type = "DERIVE",
                 min = "0",
             )) for op in self.ops
         ]
