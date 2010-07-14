@@ -4,8 +4,8 @@
 from munin.mongodb import MuninMongoDBPlugin
 
 class MongoDBPageFaultsPlugin(MuninMongoDBPlugin):
-    args = "-l 0 --base 1024"
-    vlabel = "page faults"
+    args = "-l 0 --base 1000"
+    vlabel = "page faults / sec"
     title = "MongoDB page faults"
     info = "Page faults"
     fields = (
