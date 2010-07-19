@@ -7,8 +7,8 @@ from munin import MuninPlugin
 class PathSizePlugin(MuninPlugin):
     args = "--base 1024 -l 0"
     vlabel = "bytes"
-    scale = False
-    category = "system"
+    scale = True
+    category = "other"
     fields = (
         ('size', dict(
             label = "size",
