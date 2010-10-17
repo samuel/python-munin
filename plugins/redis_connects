@@ -3,10 +3,10 @@
 from munin.redis import MuninRedisPlugin
 
 class MuninRedisTotalConnectionsPlugin(MuninRedisPlugin):
-    title = "Redis total connections"
+    title = "Redis connects"
     args = "--base 1000"
-    vlabel = "Connections"
-    info = "total connections"
+    vlabel = "connections/sec"
+    info = "connections per second"
     fields = (
         ('total_connections_received', dict(
             label = "connections",
