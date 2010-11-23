@@ -22,10 +22,14 @@ class MuninPgBouncerPoolsPlugin(MuninPgBouncerPlugin):
         cursor = self.cursor()
         cursor.execute("SHOW POOLS")
         columns = [column[0] for column in cursor.description]
+
+        totals = dict.fromkeys((field[0] for field in self.fields), 0)
         for row in cursor:
             row_dict = dict(zip(columns, row))
             if row_dict['database'] == self.dbwatched:
                 for field in self.fields:
-                    print "%s.value %s" % (field[0], row_dict[field[0]])
-                break
+                    totals[field[0]] += row_dict[field[0]]
+
+        for field in self.fields:
+            print "%s.value %s" % (field[0], totals[field[0]])
 
