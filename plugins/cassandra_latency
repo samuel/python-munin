@@ -36,6 +36,7 @@ class CassandraLatencyPlugin(MuninCassandraPlugin):
 
     def execute(self):
         cfstats = self.cfstats()
+        values = {}
         for kf, kfstats in cfstats.items():
             if not self.keyspaces or kf not in self.keyspaces:
                 continue
@@ -47,7 +48,8 @@ class CassandraLatencyPlugin(MuninCassandraPlugin):
                         latency = 'U'
                     else:
                         latency = float(latency) / 1000
-                    print "%s_%s.value" % (name, k), latency
+                    values["%s_%s" % (name, k)] = latency
+        return values
 
 if __name__ == "__main__":
     CassandraLatencyPlugin().run()

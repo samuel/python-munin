@@ -23,7 +23,7 @@ class MongoDBObjectsPlugin(MuninMongoDBPlugin):
 
     def execute(self):
         stats = self.db.command("dbstats")
-        print "objects.value", stats['objects']
+        return dict(objects=stats['objects'])
 
 if __name__ == "__main__":
     MongoDBObjectsPlugin().run()

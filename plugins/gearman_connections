@@ -29,9 +29,11 @@ class MuninGearmanConnectionsPlugin(MuninGearmanPlugin):
 
     def execute(self):
         workers = self.get_workers()
-        print "total.value %d" % len(workers)
-        print "workers.value %d" % sum(1 for x in workers if x['abilities'])
-        print "clients.value %d" % sum(1 for x in workers if not x['abilities'])
+        return dict(
+            total = len(workers),
+            workers = sum(1 for x in workers if x['abilities']),
+            clients = sum(1 for x in workers if not x['abilities']),
+        )
 
 if __name__ == "__main__":
     MuninGearmanConnectionsPlugin().run()

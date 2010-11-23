@@ -29,10 +29,12 @@ class MuninGearmanQueuesPlugin(MuninGearmanPlugin):
 
     def execute(self):
         status = self.get_status()
+        values = {}
         for q in self.queues:
             if q in status:
                 for k in self._info_keys:
-                    print "%s_%s.value %d" % (q.replace('.', '_'), k, status[q][k])
+                    values["%s_%s" % (q.replace('.', '_'), k)] = status[q][k]
+        return values
 
 if __name__ == "__main__":
     MuninGearmanQueuesPlugin().run()

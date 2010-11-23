@@ -23,7 +23,7 @@ class MongoDBLockTime(MuninMongoDBPlugin):
             value = int(status["globalLock"]["lockTime"])
         except KeyError:
             value = "U"
-        print "locktime.value", value
+        return dict(locktime=value)
 
 if __name__ == "__main__":
     MongoDBLockTime().run()

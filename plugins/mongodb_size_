@@ -35,9 +35,11 @@ class MongoDBSizePlugin(MuninMongoDBPlugin):
 
     def execute(self):
         stats = self.db.command("dbstats")
-        print "storagesize.value", stats["storageSize"]
-        print "datasize.value", stats["dataSize"]
-        print "indexsize.value", stats["indexSize"]
+        return dict(
+            storagesize = stats["storageSize"],
+            datasize = stats["dataSize"],
+            indexsize = stats["indexSize"],
+        )
 
 if __name__ == "__main__":
     MongoDBSizePlugin().run()

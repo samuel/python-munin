@@ -23,7 +23,7 @@ class MongoDBLockRatio(MuninMongoDBPlugin):
             value = status["globalLock"]["ratio"]
         except KeyError:
             value = "U"
-        print "lockratio.value", value
+        return dict(lockratio=value)
 
 if __name__ == "__main__":
     MongoDBLockRatio().run()

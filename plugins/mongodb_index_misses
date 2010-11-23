@@ -23,7 +23,7 @@ class MongoDBIndexMissesPlugin(MuninMongoDBPlugin):
             value = status['indexCounters']['btree']['misses']
         except KeyError:
             value = "U"
-        print "misses.value", value
+        return dict(misses=value)
 
 if __name__ == "__main__":
     MongoDBIndexMissesPlugin().run()

@@ -41,8 +41,10 @@ class MuninPostgresLocksPlugin(MuninPostgresPlugin):
             if 'exclusive' in row[0].lower():
                 exlocks += row[1]
             locks += row[1]
-        print "locks.value %s" % locks
-        print "exlocks.value %s" % exlocks
+        return dict(
+            locks = locks,
+            exlocks = exlocks,
+        )
 
 if __name__ == "__main__":
     MuninPostgresLocksPlugin().run()

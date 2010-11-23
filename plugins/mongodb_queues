@@ -23,8 +23,10 @@ class MongoDBQueuesPlugin(MuninMongoDBPlugin):
 
     def execute(self):
         status = self.connection.admin.command('serverStatus')
-        for q in self.queues:
-            print "%s.value" % q, status["globalLock"]["currentQueue"][q]
+        return dict(
+            (q, status["globalLock"]["currentQueue"][q])
+            for q in self.queues
+        )
 
 if __name__ == "__main__":
     MongoDBQueuesPlugin().run()

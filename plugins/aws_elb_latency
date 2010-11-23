@@ -47,9 +47,11 @@ class AWSCloudWatchELBLatencyPlugin(MuninPlugin):
         cw = CloudWatchConnection(self.api_key, self.secret_key)
         metrics = cw.get_metric_statistics(5*60, start_date, end_date, "Latency", "AWS/ELB", ["Average", "Minimum", "Maximum"])
         m = metrics[0]
-        print "maximum.value", m['Maximum']
-        print "minimum.value", m['Minimum']
-        print "average.value", m['Average']
+        return dict(
+            maximum = m['Maximum'],
+            minimum = m['Minimum'],
+            average = m['Average'],
+        )
 
 if __name__ == "__main__":
     AWSCloudWatchELBLatencyPlugin().run()

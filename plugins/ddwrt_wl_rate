@@ -17,7 +17,7 @@ class DDWrtWirelessRate(DDWrtPlugin):
 
     def execute(self):
         info = self.get_info()
-        print "rate.value", info['wl_rate'].split(' ')[0]
+        return dict(rate=info['wl_rate'].split(' ')[0])
 
 if __name__ == "__main__":
     DDWrtWirelessRate().run()

@@ -38,9 +38,10 @@ class AWSCloudWatchELBRequestsPlugin(MuninPlugin):
         end_date = datetime.datetime.utcnow()
         start_date = end_date - datetime.timedelta(minutes=minutes)
         cw = CloudWatchConnection(self.api_key, self.secret_key)
-        for n in self.elb_names:
-            count = sum(x['Sum'] for x in cw.get_metric_statistics(60, start_date, end_date, "RequestCount", "AWS/ELB", ["Sum"]))
-            print "%s.value" % n, count
+        return dict(
+            (n, sum(x['Sum'] for x in cw.get_metric_statistics(60, start_date, end_date, "RequestCount", "AWS/ELB", ["Sum"])))
+            for n in self.elb_names
+        )
 
 if __name__ == "__main__":
     AWSCloudWatchELBRequestsPlugin().run()
