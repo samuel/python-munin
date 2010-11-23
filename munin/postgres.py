@@ -13,7 +13,7 @@ class MuninPostgresPlugin(MuninPlugin):
         self.dbname = ((sys.argv[0].rsplit('_', 1)[-1] if self.dbname_in_args else None)
             or os.environ.get('PGDATABASE') or self.default_table)
         dsn = ["dbname='%s'" % self.dbname]
-        for k in ('user', 'password', 'host'):
+        for k in ('user', 'password', 'host', 'port'):
             v = os.environ.get('DB%s' % k.upper())
             if v:
                 dsn.append("db%s='%s'" % (k, v))
