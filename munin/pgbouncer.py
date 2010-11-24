@@ -26,7 +26,7 @@ class MuninPgBouncerPoolsPlugin(MuninPgBouncerPlugin):
         totals = dict.fromkeys((field[0] for field in self.fields), 0)
         for row in cursor:
             row_dict = dict(zip(columns, row))
-            if row_dict['database'] == self.dbwatched:
+            if row_dict['database'] in (self.dbwatched, self.dbwatched + '\x00'):
                 for field in self.fields:
                     totals[field[0]] += row_dict[field[0]]
 

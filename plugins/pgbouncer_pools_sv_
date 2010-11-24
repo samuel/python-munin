@@ -4,7 +4,7 @@
 from munin.pgbouncer import MuninPgBouncerPoolsPlugin
 
 class MuninPgBouncerPoolsServerPlugin(MuninPgBouncerPoolsPlugin):
-    vlabel = "Server connections per ${graph_period}"
+    vlabel = "Connections"
     info = "Shows number of connections to postgresql"
 
     fields = (
