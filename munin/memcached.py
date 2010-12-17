@@ -30,7 +30,7 @@ class MuninMemcachedPlugin(MuninPlugin):
 
     def execute(self):
         stats = self.get_stats()
-        values = 
+        values = {}
         for k, v in self.fields:
             try:
                 value = stats[k]
