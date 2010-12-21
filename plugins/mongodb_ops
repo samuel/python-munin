@@ -23,8 +23,10 @@ class MongoDBOpsPlugin(MuninMongoDBPlugin):
 
     def execute(self):
         status = self.connection.admin.command('serverStatus')
-        for op in self.ops:
-            print "%s.value" % op, status["opcounters"].get(op, 0)
+        return dict(
+            (op, status["opcounters"].get(op, 0))
+            for op in self.ops
+        )
 
 if __name__ == "__main__":
     MongoDBOpsPlugin().run()

@@ -28,7 +28,7 @@ class MuninPostgresConnectionsPlugin(MuninPostgresPlugin):
         c = self.cursor()
         c.execute("SELECT COUNT(1) FROM pg_stat_activity")
         row = c.fetchone()
-        print "connections.value %s" % row[0]
+        return dict(connections = row[0])
 
 if __name__ == "__main__":
     MuninPostgresConnectionsPlugin().run()

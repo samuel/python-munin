@@ -87,10 +87,12 @@ class MuninPostgresSpacePlugin(MuninPostgresPlugin):
                 else:
                     database_indexes += int(relpages) + relpages2
 
-        print "size.value %d" % (database_pages * 8192)
-        print "indexsize.value %d" % (database_indexes * 8192)
-        print "metasize.value %d" % (metadatabase_pages * 8192)
-        print "metaindexsize.value %d" % (metadatabase_indexes * 8192)
+        return dict(
+            size = database_pages * 8192,
+            indexsize = database_indexes * 8192,
+            metasize = metadatabase_pages * 8192,
+            metaindexsize = metadatabase_indexes * 8192,
+        )
 
 if __name__ == "__main__":
     MuninPostgresSpacePlugin().run()

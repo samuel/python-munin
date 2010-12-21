@@ -24,8 +24,10 @@ class CassandraPendingPlugin(MuninCassandraPlugin):
 
     def execute(self):
         tpstats = self.tpstats()
+        values = {}
         for name, stats in tpstats.items():
-            print "%s.value" % name.lower().replace('-', '_'), stats['pending']
+            values[name.lower().replace('-', '_')] = stats['pending']
+        return values
 
 if __name__ == "__main__":
     CassandraPendingPlugin().run()

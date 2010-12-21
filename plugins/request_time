@@ -38,6 +38,7 @@ class MuninRequestTimePlugin(MuninPlugin):
         ]
 
     def execute(self):
+        values = {}
         for name, url, headers in self.urls:
             t = time()
             req = Request(url, headers=headers)
@@ -45,7 +46,8 @@ class MuninRequestTimePlugin(MuninPlugin):
             dt = time() - t
             if self.bound_time:
                 dt = min(dt, self.bound_time)
-            print "%s.value %.2f" % (name, dt)
+            values[name] = "%.2f" % dt
+        return values
 
 if __name__ == "__main__":
     MuninRequestTimePlugin().run()

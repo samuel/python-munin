@@ -56,9 +56,11 @@ class MuninPostgresBlockReadPlugin(MuninPostgresPlugin):
             "	 SUM (toast_blks_hit) + SUM (tidx_blks_hit)) AS mem "
             "FROM pg_statio_user_tables")
         c.execute(query)
+        values = {}
         for row in c.fetchall():
-        	print "from_disk.value %s" % row[0]
-        	print "from_memory.value %s" % row[1]
+            values['from_disk'] = row[0]
+        	values['from_memory'] = row[1]
+        return values
 
 if __name__ == "__main__":
     MuninPostgresBlockReadPlugin().run()

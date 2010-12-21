@@ -51,9 +51,11 @@ class MuninPostgresCommitsPlugin(MuninPostgresPlugin):
     def execute(self):
         c = self.cursor()
         c.execute("SELECT xact_commit, xact_rollback FROM pg_stat_database WHERE datname = %s", (self.dbname,))
+        values = {}
         for row in c.fetchall():
-            print "commits.value %s" % row[0]
-            print "rollbacks.value %s" % row[1]
+            values["commits"] = row[0]
+            values["rollbacks"] = row[1]
+        return values
 
 if __name__ == "__main__":
     MuninPostgresCommitsPlugin().run()

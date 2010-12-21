@@ -1,5 +1,5 @@
 
-__version__ = "1.0.1"
+__version__ = "1.1"
 
 import os
 import sys
@@ -47,7 +47,10 @@ class MuninPlugin(object):
     def run(self):
         cmd =  ((len(sys.argv) > 1) and sys.argv[1] or None) or "execute"
         if cmd == "execute":
-            self.execute()
+            values = self.execute()
+            if values:
+                for k, v in values.items():
+                    print "%s.value %s" % (k, v)
         elif cmd == "autoconf":
             try:
                 ac = self.autoconf()

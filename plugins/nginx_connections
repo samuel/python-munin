@@ -38,10 +38,12 @@ class MuninNginxConnectionsPlugin(MuninNginxPlugin):
 
     def execute(self):
         status = self.get_status()
-        print "total.value %s" % status['active']
-        print "reading.value %s" % status['reading']
-        print "writing.value %s" % status['writing']
-        print "waiting.value %s" % status['waiting']
+        return dict(
+            total = status['active'],
+            reading = status['reading'],
+            writing = status['writing'],
+            waiting = status['waiting'],
+        )
 
 if __name__ == "__main__":
     MuninNginxConnectionsPlugin().run()

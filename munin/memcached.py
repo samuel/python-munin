@@ -30,9 +30,11 @@ class MuninMemcachedPlugin(MuninPlugin):
 
     def execute(self):
         stats = self.get_stats()
+        values = {}
         for k, v in self.fields:
             try:
                 value = stats[k]
             except KeyError:
                 value = "U"
-            print "%s.value %s" % (k, value)
+            values[k] = value
+        return values

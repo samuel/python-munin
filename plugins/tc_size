@@ -53,7 +53,7 @@ class MuninTokyoCabinetSizePlugin(MuninPlugin):
 
     def execute(self):
         info = self.inform()
-        print "size.value %s" % info['size']
+        return dict(size=info['size'])
 
 if __name__ == "__main__":
     MuninTokyoCabinetSizePlugin().run()

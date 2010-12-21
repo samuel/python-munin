@@ -25,8 +25,10 @@ class RiakOpsPlugin(MuninRiakPlugin):
 
     def execute(self):
         status = self.get_status()
-        print "gets.value", status['node_gets_total']
-        print "puts.value", status['node_puts_total']
+        return dict(
+            gets = status['node_gets_total'],
+            puts = status['node_puts_total'],
+        )
 
 if __name__ == "__main__":
     RiakOpsPlugin().run()

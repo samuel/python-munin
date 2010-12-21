@@ -23,7 +23,7 @@ class MongoDBHeapUsagePlugin(MuninMongoDBPlugin):
             value = status['extra_info']['heap_usage_bytes']
         except KeyError:
             value = "U"
-        print "heap_usage.value", value
+        return dict(heap_usage=value)
 
 if __name__ == "__main__":
     MongoDBHeapUsagePlugin().run()

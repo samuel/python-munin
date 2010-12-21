@@ -30,14 +30,16 @@ class CassandraKeyCacheRatioPlugin(MuninCassandraPlugin):
 
     def execute(self):
         cfstats = self.cfstats()
+        values = {}
         for kf, kfstats in cfstats.items():
             if not self.keyspaces or kf not in self.keyspaces:
                 continue
             for cf, cfstats in kfstats['cf'].items():
                 if cfstats['Key cache hit rate'] != 'NaN':
-                    print "%s_%s.value" % (kf, cf), cfstats['Key cache hit rate']
+                    values["%s_%s" % (kf, cf)] = cfstats['Key cache hit rate']
                 else:
-                    print "%s_%s.value U" % (kf, cf)
+                    values["%s_%s" % (kf, cf)] = "U"
+        return values
 
 if __name__ == "__main__":
     CassandraKeyCacheRatioPlugin().run()

@@ -23,7 +23,7 @@ class MongoDBPageFaultsPlugin(MuninMongoDBPlugin):
             value = status['extra_info']['page_faults']
         except KeyError:
             value = "U"
-        print "page_faults.value", value
+        return dict(page_faults=value)
 
 if __name__ == "__main__":
     MongoDBPageFaultsPlugin().run()

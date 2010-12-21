@@ -19,7 +19,9 @@ class MuninNginxRequestsPlugin(MuninNginxPlugin):
     )
 
     def execute(self):
-        print "request.value %s" % self.get_status()['requests']
+        return dict(
+            request = self.get_status()['requests'],
+        )
 
 if __name__ == "__main__":
     MuninNginxRequestsPlugin().run()

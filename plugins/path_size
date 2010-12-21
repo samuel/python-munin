@@ -18,7 +18,7 @@ class PathSizePlugin(MuninPlugin):
     )
 
     def __init__(self, *args, **kwargs):
-        super(MuninPlugin, self).__init__(*args, **kwargs)
+        super(PathSizePlugin, self).__init__(*args, **kwargs)
         self.path = os.environ["PATHSIZE_PATH"]
 
     @property
@@ -29,7 +29,7 @@ class PathSizePlugin(MuninPlugin):
         p = subprocess.Popen("du -sk " + self.path, shell=True, stdout=subprocess.PIPE)
         du = p.communicate()[0]
         size = int(du.split('\t')[0].strip()) * 1024
-        print "size.value", size
+        return dict(size=size)
 
 if __name__ == "__main__":
     PathSizePlugin().run()
