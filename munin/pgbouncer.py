@@ -29,6 +29,5 @@ class MuninPgBouncerPlugin(MuninPostgresPlugin):
                 for field in self.fields:
                     totals[field[0]] += row_dict[field[0]]
 
-        for field in self.fields:
-            print "%s.value %s" % (field[0], totals[field[0]])
+        return dict((field[0], totals[field[0]]) for field in self.fields)
 
