@@ -17,10 +17,9 @@ class MuninPgBouncerPlugin(MuninPostgresPlugin):
             self._connection.set_isolation_level(0)
         return self._connection
 
-class MuninPgBouncerPoolsPlugin(MuninPgBouncerPlugin):
     def execute(self):
         cursor = self.cursor()
-        cursor.execute("SHOW POOLS")
+        cursor.execute(self.command)
         columns = [column[0] for column in cursor.description]
 
         totals = dict.fromkeys((field[0] for field in self.fields), 0)

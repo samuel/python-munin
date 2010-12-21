@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from munin.pgbouncer import MuninPgBouncerPoolsPlugin
+from munin.pgbouncer import MuninPgBouncerPlugin
 
-class MuninPgBouncerPoolsServerPlugin(MuninPgBouncerPoolsPlugin):
+class MuninPgBouncerPoolsServerPlugin(MuninPgBouncerPlugin):
+    command = "SHOW POOLS"
     vlabel = "Connections"
     info = "Shows number of connections to postgresql"
 
@@ -45,5 +46,5 @@ class MuninPgBouncerPoolsServerPlugin(MuninPgBouncerPoolsPlugin):
         return "PgBouncer server connections on %s" % self.dbwatched
 
 if __name__ == "__main__":
-    MuninPgBouncerPoolsServerPlugin().run()        
+    MuninPgBouncerPoolsServerPlugin().run()
 
