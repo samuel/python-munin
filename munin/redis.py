@@ -24,7 +24,7 @@ class MuninRedisPlugin(MuninPlugin):
         while '\r\n\r\n' not in buf:
             buf += s.recv(1024)
         s.close()
-        return dict(x.split(':', 1) for x in buf.split('\r\n')[1:-2])
+        return dict(x.split(':', 1) for x in buf.split('\r\n') if ':' in x)
 
     def execute(self):
         stats = self.get_info()
