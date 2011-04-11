@@ -11,7 +11,7 @@ See http://munin.projects.linpro.no/ for more about Munin.
 Source
 ======
 
-You can find the latest version of scrubber at
+You can find the latest version of python-munin at
 http://github.com/samuel/python-munin
 
 Example
