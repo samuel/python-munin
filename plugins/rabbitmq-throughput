@@ -13,7 +13,7 @@ pwd = 'guest'
 
 class RabbitMQThroughputPlugin(MuninPlugin):
     title = "RabbitMQ Throughput"
-    args = "--base 1000 -l-500"
+    args = "--base 1000 -l-50"
     vlabel = "throughput"
     scaled = False
     category = "rabbitmq"
