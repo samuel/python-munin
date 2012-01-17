@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-#
-# requires the rabbitmq management plugin to be installed
-#
 from munin import MuninPlugin
 
 import mechanize
@@ -30,7 +27,7 @@ class RabbitMQThroughputPlugin(MuninPlugin):
         msg_warning = os.environ.get('msg_throughput_warn', 250)
         msg_critical = os.environ.get('msg_throughput_crit', 300)
 
-        return [ (field, dict(
+        return [ (field.replace('details','rate'), dict(
                 label = field.replace('details','rate'),
                 info = '%s throughput (per sec)' % (field,),
                 type = "GAUGE",
