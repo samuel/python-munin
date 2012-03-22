@@ -17,8 +17,12 @@ class MuninRedisPlugin(MuninPlugin):
     def get_info(self):
         host = os.environ.get('REDIS_HOST') or '127.0.0.1'
         port = int(os.environ.get('REDIS_PORT') or '6379')
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.connect((host, port))
+        if host.startswith('/'):
+            s = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
+            s.connect(host)
+        else:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((host, port))
         s.send("*1\r\n$4\r\ninfo\r\n")
         buf = ""
         while '\r\n\r\n' not in buf:
