@@ -28,7 +28,7 @@ Example plugin (loadavg)::
         title = "Load average"
         args = "--base 1000 -l 0"
         vlabel = "load"
-        scaled = False
+        scale = False
         category = "system"
 
         @property
@@ -50,8 +50,7 @@ Example plugin (loadavg)::
                 from subprocess import Popen, PIPE
                 output = Popen(["uptime"], stdout=PIPE).communicate()[0]
                 loadavg = output.rsplit(':', 1)[1].strip().split(' ')[:3]
-                print loadavg
-            print "load.value %s" % loadavg[1]
+            return dict(load=loadavg[1])
 
     if __name__ == "__main__":
         LoadAVGPlugin().run()
