@@ -33,7 +33,7 @@ class MuninRedisPlugin(MuninPlugin):
             raise Exception("Protocol error")
         remaining = int(l[1:]) - len(buf)
         if remaining > 0:
-            buf += s.recv(count - len(buf))
+            buf += s.recv(remaining)
         s.close()
         return dict(x.split(':', 1) for x in buf.split('\r\n') if ':' in x)
 
