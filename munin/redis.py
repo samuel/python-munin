@@ -25,8 +25,15 @@ class MuninRedisPlugin(MuninPlugin):
             s.connect((host, port))
         s.send("*1\r\n$4\r\ninfo\r\n")
         buf = ""
-        while '\r\n\r\n' not in buf:
+        while '\r\n' not in buf:
             buf += s.recv(1024)
+        l, buf = buf.split('\r\n', 1)
+        if l[0] != "$":
+            s.close()
+            raise Exception("Protocol error")
+        remaining = int(l[1:]) - len(buf)
+        if remaining > 0:
+            buf += s.recv(count - len(buf))
         s.close()
         return dict(x.split(':', 1) for x in buf.split('\r\n') if ':' in x)
 
