@@ -13,6 +13,11 @@ class MuninMemcachedCurrBytesPlugin(MuninMemcachedPlugin):
             info = "live bytes",
             type = "GAUGE",
         )),
+        ('limit_maxbytes', dict(
+            label = "max live byte",
+            info = "max live bytes",
+            type = "GAUGE",
+        )),
     )
 
 if __name__ == "__main__":
