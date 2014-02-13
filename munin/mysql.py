@@ -1,5 +1,6 @@
 
-import os, sys
+import os, sys, re
+from ConfigParser import SafeConfigParser
 from munin import MuninPlugin
 
 class MuninMySQLPlugin(MuninPlugin):
@@ -17,7 +18,29 @@ class MuninMySQLPlugin(MuninPlugin):
             host = "localhost",
         )
 
+        cnfpath = ""
+
+        m = re.findall(r"--defaults-file=([^\s]+)", os.environ.get("mysqlopts") or "")
+        if m:
+            cnfpath = m[0]
+
+        if not cnfpath:
+            m = re.findall(r"mysql_read_default_file=([^\s;:]+)", os.environ.get("mysqlconnection") or "")
+            if m:
+                cnfpath = m[0]
+
+        if cnfpath:
+            cnf = SafeConfigParser()
+            cnf.read([cnfpath])
+            for section in ["client", "munin"]:
+                if not cnf.has_section(section):
+                    continue
+                for connkey, opt in [("user", "user"), ("passwd", "password"), ("host", "host"), ("port", "port")]:
+                    if cnf.has_option(section, opt):
+                        self.conninfo[connkey] = cnf.get(section, opt)
+
         for k in ('user', 'passwd', 'host', 'port'):
+            # Use lowercase because that's what the existing mysql plugins do
             v = os.environ.get(k)
             if v:
                 self.conninfo[k] = v
