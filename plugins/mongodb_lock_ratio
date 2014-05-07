@@ -20,7 +20,7 @@ class MongoDBLockRatio(MuninMongoDBPlugin):
     def execute(self):
         status = self.connection.admin.command('serverStatus')
         try:
-            value = status["globalLock"]["ratio"]
+            value = float(status["globalLock"]["lockTime"])/float(status["globalLock"]["totalTime"])
         except KeyError:
             value = "U"
         return dict(lockratio=value)
