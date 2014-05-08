@@ -20,7 +20,7 @@ class MongoDBIndexMissesPlugin(MuninMongoDBPlugin):
     def execute(self):
         status = self.connection.admin.command('serverStatus')
         try:
-            value = status['indexCounters']['btree']['misses']
+            value = status['indexCounters']['misses']
         except KeyError:
             value = "U"
         return dict(misses=value)
